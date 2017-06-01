@@ -16,52 +16,13 @@ export default function createRoutes(store) {
   // create reusable async injectors using getAsyncInjectors factory
   const { injectReducer, injectSagas } = getAsyncInjectors(store);
 
-  return [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   getComponent(nextState, cb) {
-    //     const importModules = Promise.all([
-    //       import ('containers/HomePage/reducer'),
-    //       import ('containers/HomePage/sagas'),
-    //       import ('containers/HomePage'),
-    //     ]);
-    //
-    //     const renderRoute = loadModule(cb);
-    //
-    //     importModules.then(([reducer, sagas, component]) => {
-    //       injectReducer('home', reducer.default);
-    //       injectSagas(sagas.default);
-    //
-    //       renderRoute(component);
-    //     });
-    //
-    //     importModules.catch(errorLoading);
-    //   },
-    // },
-    {
+  return [{
       path: '/',
       name: 'home',
       getComponent(nextState, cb) {
-        // const importModules = Promise.all([
-        //   import ('containers/MainHomePage/reducer'),
-        //   import ('containers/MainHomePage/sagas'),
-        //
-        // ]);
         import ('containers/MainHomePage')
         .then(loadModule(cb))
           .catch(errorLoading);
-
-        // const renderRoute = loadModule(cb);
-        //
-        // importModules.then(([reducer, sagas, component]) => {
-        //   injectReducer('home', reducer.default);
-        //   injectSagas(sagas.default);
-        //
-        //   renderRoute(component);
-        // });
-        //
-        // importModules.catch(errorLoading);
       },
     },
     {
@@ -77,9 +38,21 @@ export default function createRoutes(store) {
       path: '/login',
       name: 'login',
       getComponent(nextState, cb) {
-        import ('containers/LoginPage')
-        .then(loadModule(cb))
-          .catch(errorLoading);
+        const importModules = Promise.all([
+          import ('containers/LoginPage/reducer'),
+          import ('containers/LoginPage/sagas'),
+          import ('containers/LoginPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('login', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
       },
     },
     {
@@ -91,52 +64,6 @@ export default function createRoutes(store) {
           .catch(errorLoading);
       },
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   getComponent(nextState, cb) {
-    //     import ('containers/AboutPage')
-    //     .then(loadModule(cb))
-    //       .catch(errorLoading);
-    //   },
-    // },
-    // {
-    //   path: '/security',
-    //   name: 'security',
-    //   getComponent(nextState, cb) {
-    //     import ('containers/SecurityPage')
-    //     .then(loadModule(cb))
-    //       .catch(errorLoading);
-    //   },
-    // },
-    // {
-    //   path: '/marketstats',
-    //   name: 'marketstats',
-    //   getComponent(nextState, cb) {
-    //     import ('containers/MarketStatsPage')
-    //     .then(loadModule(cb))
-    //       .catch(errorLoading);
-    //   },
-    // },
-    // {
-    //   path: '/changelog',
-    //   name: 'changelog',
-    //   getComponent(nextState, cb) {
-    //     import ('containers/ChangeLogPage')
-    //     .then(loadModule(cb))
-    //       .catch(errorLoading);
-    //   },
-    // },
-    // {
-    //   path: '/contact',
-    //   name: 'contact',
-    //   getComponent(nextState, cb) {
-    //     import ('containers/ContactPage')
-    //     .then(loadModule(cb))
-    //       .catch(errorLoading);
-    //   },
-    // },
-
     {
       path: '*',
       name: 'notfound',

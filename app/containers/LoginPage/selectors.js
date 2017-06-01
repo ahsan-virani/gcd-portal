@@ -4,14 +4,35 @@
 
 import { createSelector } from 'reselect';
 
-const selectHome = (state) => state.get('home');
+const selectLoginPage = (state) => state.get('login');
 
-const makeSelectUsername = () => createSelector(
-  selectHome,
-  (homeState) => homeState.get('username')
+const makeSelectLoginForm = () => createSelector(
+  selectLoginPage,
+  (loginPageState) => {
+    return loginPageState;
+  }
+);
+
+const makeSelectFormState = createSelector(
+  selectLoginPage,
+  (loginState) => {
+    return loginState.get('formState');
+  }
+);
+
+const makeSelectEmail = createSelector(
+  makeSelectFormState,
+  (formState) => { return formState.get('email'); }
+);
+
+const makeSelectPassword = createSelector(
+  makeSelectFormState,
+  (formState) => { return formState.get('password'); }
 );
 
 export {
-  selectHome,
-  makeSelectUsername,
+  selectLoginPage,
+  makeSelectLoginForm,
+  makeSelectEmail,
+  makeSelectPassword
 };

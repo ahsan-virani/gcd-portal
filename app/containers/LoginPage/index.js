@@ -7,68 +7,40 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-// import { connect } from 'react-redux';
-// import { createStructuredSelector } from 'reselect';
 
-// import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import H2 from 'components/H2';
-// import ReposList from 'components/ReposList';
-// import AtPrefix from './AtPrefix';
-// import CenteredSection from './CenteredSection';
+
 import Form from './Form';
-import Input from './Input';
-import Section from './Section';
-import messages from './messages';
 
 import LoginImg from './login.jpg';
 import Img from './Img';
 
 import { FormControl, FormGroup, ControlLabel, HelpBlock, Checkbox, Radio, Button, Grid, Row, Col} from 'react-bootstrap';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
-// import { loadRepos } from '../App/actions';
-// import { changeUsername } from './actions';
-// import { makeSelectUsername } from './selectors';
-//
-// function fieldGroup({ id, label, help, ...props }) {
-// return (
-// <FormGroup controlId={id}>
-//   <ControlLabel>{label}</ControlLabel>
-//   <FormControl {...props} />
-//   {help && <HelpBlock>{help}</HelpBlock>}
-// </FormGroup>
-// );
-// }
+import { login, changeForm } from './actions';
+import { connect } from 'react-redux';
 
-// fieldGroup.propTypes = {
-//   id: React.PropTypes.string,
-//   label: React.PropTypes.string,
-//   help: React.PropTypes.oneOfType([
-//     React.PropTypes.string,
-//     React.PropTypes.object,
-//   ]),
-// };
+import { createStructuredSelector } from 'reselect';
+import { makeSelectLoginForm, makeSelectEmail, makeSelectPassword} from './selectors';
+import { fromJS } from 'immutable';
 
-export default class LoginPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  /**
-   * when initial state username is not null, submit the form to load repos
-   */
-  // componentDidMount() {
-  //   if (this.props.username && this.props.username.trim().length > 0) {
-  //     this.props.onSubmitForm();
-  //   }
-  // }
-  // shouldComponentUpdate() {
-  //   return false;
-  // }
+const assign = Object.assign || require('object.assign');
+
+
+export class LoginPage extends React.PureComponent {
+
+  componentWillReceiveProps(nextProps){
+    console.log("nextProps.data.get('loggedIn'): ", nextProps.data.get('loggedIn'));
+    if(nextProps.data.get('loggedIn') === true)
+    browserHistory.push('/');
+  }
 
   render() {
-    // const { loading, error, repos } = this.props;
-    // const reposListProps = {
-    //   loading,
-    //   error,
-    //   repos,
-    // };
+		const currentlySending = this.props.data.get('currentlySending');
+    const formState = this.props.data.get('formState');
+
+    // let this.props.data.currentlySending
 
     return (
       <div >
@@ -84,14 +56,15 @@ export default class LoginPage extends React.PureComponent { // eslint-disable-l
               <Col md={6} sm={12} lg={6}>
                 <Img src={LoginImg} alt="GlobalCoinDex" />
               </Col>
-              <Col md={6} sm={12} lg={6}>
-                <Form className="form-horizontal">
+              <Col md={6} sm={12} lg={6} style={{paddingTop: 200}}>
+                <Form className="form-horizontal" onSubmit={this._onSubmit.bind(this)}>
                       <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} sm={2}>
                           Email
                         </Col>
                         <Col sm={10}>
-                          <FormControl type="email" placeholder="Email" />
+                          <FormControl disabled={currentlySending} type="email" value={this.props.email} placeholder="Your email address" onChange={this._changeEmail.bind(this)}
+                             autoCorrect="off" autoCapitalize="off" spellCheck="false"/>
                         </Col>
                       </FormGroup>
 
@@ -100,15 +73,15 @@ export default class LoginPage extends React.PureComponent { // eslint-disable-l
                           Password
                         </Col>
                         <Col sm={10}>
-                          <FormControl type="password" placeholder="Password" />
+                          <FormControl disabled={currentlySending} type="password" value={this.props.password} placeholder="••••••••••"  onChange={this._changePassword.bind(this)} />
                         </Col>
                       </FormGroup>
 
 
                       <FormGroup>
                         <Col smOffset={2} sm={10}>
-                          <Button type="submit">
-                            Sign in
+                          <Button type="submit" disabled={currentlySending}>
+                            {!currentlySending? "Sign in" : "Signing in ..."}
                           </Button>
                         </Col>
                       </FormGroup>
@@ -119,39 +92,50 @@ export default class LoginPage extends React.PureComponent { // eslint-disable-l
     </div>
     );
   }
+
+  _changeEmail(evt) {
+    // var newState = this.props.data.setIn(['formState', 'email'], evt.target.value).get('formState');
+    var newState = fromJS({
+      email: evt.target.value,
+      password: this.props.password
+    });
+
+    this._emitChange(newState);
+  }
+
+  _changePassword(evt) {
+    // var newState = this.props.data.setIn(['formState', 'password'], evt.target.value).get('formState');
+    var newState = fromJS({
+      email: this.props.email,
+      password: evt.target.value
+    });
+    this._emitChange(newState);
+  }
+
+  _emitChange(newState) {
+    this.props.onChangeForm(newState);
+  }
+
+  _onSubmit(evt) {
+    evt.preventDefault();
+    var formSt = this.props.data.get('formState');
+    this.props.onLogin(formSt.get('email'), formSt.get('password'));
+  }
 }
 
-// HomePage.propTypes = {
-//   loading: React.PropTypes.bool,
-//   error: React.PropTypes.oneOfType([
-//     React.PropTypes.object,
-//     React.PropTypes.bool,
-//   ]),
-//   repos: React.PropTypes.oneOfType([
-//     React.PropTypes.array,
-//     React.PropTypes.bool,
-//   ]),
-//   onSubmitForm: React.PropTypes.func,
-//   username: React.PropTypes.string,
-//   onChangeUsername: React.PropTypes.func,
-// };
+export function mapDispatchToProps(dispatch) {
+  return {
+    onChangeForm: (newState) => dispatch(changeForm(newState)),
+    onLogin: (email, password) => {
+      dispatch(login(email, password));
+    },
+  };
+}
 
-// export function mapDispatchToProps(dispatch) {
-//   return {
-//     onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
-//     onSubmitForm: (evt) => {
-//       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-//       dispatch(loadRepos());
-//     },
-//   };
-// }
+const mapStateToProps = createStructuredSelector({
+  data: makeSelectLoginForm(),
+  email: makeSelectEmail,
+  password: makeSelectPassword,
+});
 
-// const mapStateToProps = createStructuredSelector({
-//   repos: makeSelectRepos(),
-//   username: makeSelectUsername(),
-//   loading: makeSelectLoading(),
-//   error: makeSelectError(),
-// });
-
-// Wrap the component to inject dispatch and state into it
-// export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
