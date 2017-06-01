@@ -1013,4 +1013,8 @@ injectGlobal `
     background-color: transparent !important;
 }
 
+.custom-login-form{
+    padding: 200px 0;
+}
+
 `;

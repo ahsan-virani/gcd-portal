@@ -84,13 +84,13 @@ export default class LoginPage extends React.PureComponent { // eslint-disable-l
               <Col md={6} sm={12} lg={6}>
                 <Img src={LoginImg} alt="GlobalCoinDex" />
               </Col>
-              <Col md={6} sm={12} lg={6}>
+              <Col md={6} sm={12} lg={6} className="custom-login-form">
                 <Form className="form-horizontal">
                       <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} sm={2}>
                           Email
                         </Col>
-                        <Col sm={10}>
+                        <Col sm={8}>
                           <FormControl type="email" placeholder="Email" />
                         </Col>
                       </FormGroup>
@@ -99,7 +99,7 @@ export default class LoginPage extends React.PureComponent { // eslint-disable-l
                         <Col componentClass={ControlLabel} sm={2}>
                           Password
                         </Col>
-                        <Col sm={10}>
+                        <Col sm={8}>
                           <FormControl type="password" placeholder="Password" />
                         </Col>
                       </FormGroup>
