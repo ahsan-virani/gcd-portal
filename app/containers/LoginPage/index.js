@@ -18,11 +18,13 @@ import Img from './Img';
 import { FormControl, FormGroup, ControlLabel, HelpBlock, Checkbox, Radio, Button, Grid, Row, Col} from 'react-bootstrap';
 import { Link, browserHistory } from 'react-router';
 
-import { login, changeForm } from './actions';
+import { changeForm } from './actions';
+import {login} from '../App/actions';
 import { connect } from 'react-redux';
 
 import { createStructuredSelector } from 'reselect';
 import { makeSelectLoginForm, makeSelectEmail, makeSelectPassword} from './selectors';
+import { makeSelectCurrentUser, makeselectLoggedIn } from '../App/selectors';
 import { fromJS } from 'immutable';
 
 const assign = Object.assign || require('object.assign');
@@ -30,9 +32,15 @@ const assign = Object.assign || require('object.assign');
 
 export class LoginPage extends React.PureComponent {
 
+  componentWillMount(){
+    console.log("this.props.user: ", this.props.user);
+    if(this.props.user && this.props.loggedIn === true)
+    browserHistory.push('/');
+  }
+
   componentWillReceiveProps(nextProps){
-    console.log("nextProps.data.get('loggedIn'): ", nextProps.data.get('loggedIn'));
-    if(nextProps.data.get('loggedIn') === true)
+    console.log("nextProps.user: ", nextProps.user);
+    if(nextProps.user && nextProps.loggedIn === true)
     browserHistory.push('/');
   }
 
@@ -136,6 +144,8 @@ const mapStateToProps = createStructuredSelector({
   data: makeSelectLoginForm(),
   email: makeSelectEmail,
   password: makeSelectPassword,
+  user: makeSelectCurrentUser(),
+  loggedIn: makeselectLoggedIn(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

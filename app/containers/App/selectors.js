@@ -6,10 +6,10 @@ import { createSelector } from 'reselect';
 
 const selectGlobal = (state) => state.get('global');
 
-const makeSelectCurrentUser = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('currentUser')
-);
+// const makeSelectCurrentUser = () => createSelector(
+//   selectGlobal,
+//   (globalState) => globalState.get('currentUser')
+// );
 
 const makeSelectLoading = () => createSelector(
   selectGlobal,
@@ -42,6 +42,21 @@ const makeSelectLocationState = () => {
   };
 };
 
+const makeSelectCurrentUser = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('currentUser')
+);
+
+const makeselectLoggedIn = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('loggedIn')
+);
+
+const makeSelectToken = () => createSelector(
+  selectGlobal,
+  (globalState) => { return globalState.get('token') }
+);
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
@@ -49,4 +64,6 @@ export {
   makeSelectError,
   makeSelectRepos,
   makeSelectLocationState,
+  makeselectLoggedIn,
+  makeSelectToken
 };

@@ -4,8 +4,8 @@
 
 import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { LOGIN } from './constants';
-import { loginCompleted, loginFailed } from './actions';
+import { LOGIN } from '../App/constants';
+import { loginCompleted, loginFailed } from '../App/actions';
 
 import request from 'utils/request';
 import { makeSelectEmail, makeSelectPassword } from './selectors';
@@ -32,6 +32,8 @@ export function* login() {
       })
     };
     const data = yield call(request, requestURL, options);
+    console.log("data: ", data);
+    sessionStorage.setItem('jwtToken', data.token);
     yield put(loginCompleted(data));
   } catch (err) {
     yield put(loginFailed(err));

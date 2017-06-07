@@ -16,10 +16,11 @@ import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import { useScroll } from 'react-router-scroll';
+import { getAsyncInjectors } from './utils/asyncInjectors';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
-import App from 'containers/App';
+// import App from 'containers/App';
 
 // Import selector for `syncHistoryWithStore`
 import { makeSelectLocationState } from 'containers/App/selectors';
@@ -71,11 +72,57 @@ const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: makeSelectLocationState(),
 });
 
+const { injectReducer, injectSagas } = getAsyncInjectors(store);
+const loadModule = (cb) => (componentModule) => {
+  cb(null, componentModule.default);
+};
+const errorLoading = (err) => {
+  console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
+};
+
 // Set up the router, wrapping all Routes in the App component
 const rootRoute = {
-  component: App,
+  getComponent(nextState, cb) {
+    const importModules = Promise.all([
+      // import ('containers/App/reducer'),
+      import ('containers/App/sagas'),
+      import ('containers/App'),
+    ]);
+
+    const renderRoute = loadModule(cb);
+
+    importModules.then(([ sagas, component]) => {
+      // injectReducer('app', reducer.default);
+      injectSagas(sagas.default);
+      renderRoute(component);
+    });
+
+    importModules.catch(errorLoading);
+  },
+  // component: App,
   childRoutes: createRoutes(store),
+  onEnter: checkAuth,
 };
+
+import {validateToken, validateTokenFailed} from 'containers/App/actions';
+
+function checkAuth (nextState, replace)
+{
+  console.log("checkAuth called");
+  // let token = makeSelectToken();
+  let token = sessionStorage.getItem('jwtToken');
+  // console.log(token?"logged in":"not logged in");
+  // console.log("token on checkAuth: ", token);
+  // if(token !== null && token !== "" && token !== undefined  && nextState.location.pathname === '/login')
+  if(token !== null && token !== "" && token !== undefined)
+    store.dispatch(validateToken(token));
+    else {
+      store.dispatch(validateTokenFailed);
+    }
+  // replace("/");
+  // console.log("nextState: ", nextState);
+  // console.log("replace: ", replace);
+}
 
 const render = (messages) => {
   ReactDOM.render(

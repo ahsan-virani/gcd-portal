@@ -9,7 +9,13 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
-export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
-export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
+// export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
+// export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
+// export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
 export const DEFAULT_LOCALE = 'en';
+export const LOGIN = 'boilerplate/Login/LOGIN';
+export const LOGIN_COMPLETED = 'boilerplate/App/LOGIN_COMPLETED';
+export const LOGIN_FAILED = 'boilerplate/App/LOGIN_FAILED';
+export const VALIDATE_TOKEN = 'boilerplate/App/VALIDATE_TOKEN';
+export const VALIDATE_TOKEN_FAILED = 'boilerplate/App/VALIDATE_TOKEN_FAILED';
+export const VALIDATE_TOKEN_SUCCESS = 'boilerplate/App/VALIDATE_TOKEN_SUCCESS';

@@ -13,9 +13,9 @@ import { fromJS } from 'immutable';
 
 import {
   CHANGE_FORM,
-  LOGIN,
-  LOGIN_COMPLETED,
-  LOGIN_FAILED,
+  // LOGIN,
+  // LOGIN_COMPLETED,
+  // LOGIN_FAILED,
 } from './constants';
 
 
@@ -23,10 +23,7 @@ const initialState = fromJS({
   formState: {
     email: '',
     password: ''
-  },
-  currentlySending: false,
-  loggedIn: false,
-  errorMessage: ''
+  }
 });
 
 function loginReducer(state = initialState, action) {
@@ -35,21 +32,21 @@ function loginReducer(state = initialState, action) {
       return state
         .set('formState', action.newState);
       break;
-    case LOGIN:
-      alert("Logged in with: " + action.email + ', ' + action.password);
-      // var emptyFormState = fromJS({ email: '', password: '' });
-      return state.set('currentlySending', true).set('errorMessage': '');
-      break;
-    case LOGIN_COMPLETED:
-      alert('logged in maka');
-      console.log(action.data);
-      return state.set('currentlySending', false).set('loggedIn', true);
-      break;
-    case LOGIN_FAILED:
-      alert('log in failed maka');
-      console.log(action.data);
-      return state.set('currentlySending', false).set('loggedIn', false);
-      break;
+      // case LOGIN:
+      //   alert("Logged in with: " + action.email + ', ' + action.password);
+      //   // var emptyFormState = fromJS({ email: '', password: '' });
+      //   return state.set('currentlySending', true).set('errorMessage': '');
+      //   break;
+      // case LOGIN_COMPLETED:
+      //   alert('logged in maka');
+      //   console.log(action.data);
+      //   return state.set('currentlySending', false).set('loggedIn', true);
+      //   break;
+      // case LOGIN_FAILED:
+      //   alert('log in failed maka');
+      //   console.log(action.data);
+      //   return state.set('currentlySending', false).set('loggedIn', false);
+      //   break;
     default:
       return state;
   }

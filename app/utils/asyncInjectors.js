@@ -42,6 +42,8 @@ export function injectAsyncReducer(store, isValid) {
 
     store.asyncReducers[name] = asyncReducer; // eslint-disable-line no-param-reassign
     store.replaceReducer(createReducer(store.asyncReducers));
+    // console.log("reducer name: ", name);
+    // console.log("reducer asyncReducers: ", asyncReducers);
   };
 }
 
@@ -57,12 +59,12 @@ export function injectAsyncSagas(store, isValid) {
       '(app/utils...) injectAsyncSagas: Expected `sagas` to be an array of generator functions'
     );
 
-    warning(
-      !isEmpty(sagas),
+    warning(!isEmpty(sagas),
       '(app/utils...) injectAsyncSagas: Received an empty `sagas` array'
     );
 
     sagas.map(store.runSaga);
+    // console.log("saga name: ", sagas);
   };
 }
 
