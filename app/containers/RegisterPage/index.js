@@ -12,37 +12,29 @@ import H2 from 'components/H2';
 
 import Form from './Form';
 
-import LoginImg from './login.jpg';
+import RegisterImg from './register.jpg';
 import Img from './Img';
 
 import { FormControl, FormGroup, ControlLabel, HelpBlock, Checkbox, Radio, Button, Grid, Row, Col} from 'react-bootstrap';
 import { Link, browserHistory } from 'react-router';
 
-import { changeForm } from './actions';
-import {login} from '../App/actions';
+import { register, changeForm } from './actions';
 import { connect } from 'react-redux';
 
 import { createStructuredSelector } from 'reselect';
-import { makeSelectLoginForm, makeSelectEmail, makeSelectPassword} from './selectors';
-import { makeSelectCurrentUser, makeselectLoggedIn } from '../App/selectors';
+import { makeSelectRegisterForm, makeSelectEmail, makeSelectPassword} from './selectors';
 import { fromJS } from 'immutable';
 
 const assign = Object.assign || require('object.assign');
 
 
-export class LoginPage extends React.PureComponent {
-
-  componentWillMount(){
-    console.log("this.props.user: ", this.props.user);
-    if(this.props.user && this.props.loggedIn === true)
-    browserHistory.push('/');
-  }
+export class RegisterPage extends React.PureComponent {
 
   componentWillReceiveProps(nextProps){
-    console.log("nextProps.user: ", nextProps.user);
-    if(nextProps.user && nextProps.loggedIn === true)
-    browserHistory.push('/');
-  }
+    console.log("nextProps.data.get('registerSuccess'): ", nextProps.data.get('registerSuccess'));
+    if(nextProps.data.get('registerSuccess') === true)
+      browserHistory.push('/login');
+    }
 
   render() {
 		const currentlySending = this.props.data.get('currentlySending');
@@ -62,7 +54,7 @@ export class LoginPage extends React.PureComponent {
 
           <Row className="show-grid">
               <Col md={6} sm={12} lg={6}>
-                <Img src={LoginImg} alt="GlobalCoinDex" />
+                <Img src={RegisterImg} alt="GlobalCoinDex" />
               </Col>
               <Col md={6} sm={12} lg={6} style={{paddingTop: 200}}>
                 <Form className="form-horizontal" onSubmit={this._onSubmit.bind(this)}>
@@ -89,7 +81,7 @@ export class LoginPage extends React.PureComponent {
                       <FormGroup>
                         <Col smOffset={2} sm={10}>
                           <Button type="submit" disabled={currentlySending}>
-                            {!currentlySending? "Sign in" : "Signing in ..."}
+                            {!currentlySending? "Register" : "Loading ..."}
                           </Button>
                         </Col>
                       </FormGroup>
@@ -127,25 +119,23 @@ export class LoginPage extends React.PureComponent {
   _onSubmit(evt) {
     evt.preventDefault();
     var formSt = this.props.data.get('formState');
-    this.props.onLogin(formSt.get('email'), formSt.get('password'));
+    this.props.onRegister(formSt.get('email'), formSt.get('password'));
   }
 }
 
 export function mapDispatchToProps(dispatch) {
   return {
     onChangeForm: (newState) => dispatch(changeForm(newState)),
-    onLogin: (email, password) => {
-      dispatch(login(email, password));
+    onRegister: (email, password) => {
+      dispatch(register(email, password));
     },
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  data: makeSelectLoginForm(),
+  data: makeSelectRegisterForm(),
   email: makeSelectEmail,
   password: makeSelectPassword,
-  user: makeSelectCurrentUser(),
-  loggedIn: makeselectLoggedIn(),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);
