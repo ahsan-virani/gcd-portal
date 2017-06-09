@@ -10,6 +10,6 @@
  */
 
 export const CHANGE_FORM = 'boilerplate/Login/CHANGE_FORM';
-export const LOGIN = 'boilerplate/Login/LOGIN';
-export const LOGIN_COMPLETED = 'boilerplate/Login/LOGIN_COMPLETED';
-export const LOGIN_FAILED = 'boilerplate/Login/LOGIN_FAILED';
+// export const LOGIN = 'boilerplate/Login/LOGIN';
+// export const LOGIN_COMPLETED = 'boilerplate/Login/LOGIN_COMPLETED';
+// export const LOGIN_FAILED = 'boilerplate/Login/LOGIN_FAILED';
