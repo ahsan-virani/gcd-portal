@@ -56,8 +56,32 @@ export class RegisterPage extends React.PureComponent {
               <Col md={6} sm={12} lg={6}>
                 <Img src={RegisterImg} alt="GlobalCoinDex" />
               </Col>
-              <Col md={6} sm={12} lg={6} style={{paddingTop: 200}}>
-                <Form className="form-horizontal" onSubmit={this._onSubmit.bind(this)}>
+
+              <Col className="custom-login-form" md={6} sm={12} lg={6} >
+
+                <H2>Create Account</H2>
+                    <Form className="form-horizontal" onSubmit={this._onSubmit.bind(this)}>
+
+                      <FormGroup controlId="formHorizontalFirstName">
+                        <Col componentClass={ControlLabel} sm={2}>
+                          First Name
+                        </Col>
+                        <Col sm={8}>
+                          <FormControl disabled={currentlySending} type="text" value={this.props.firstName} placeholder="Your first name"
+                             autoCorrect="off" autoCapitalize="off" spellCheck="false"/>
+                        </Col>
+                      </FormGroup>
+
+                      <FormGroup controlId="formHorizontalLastName">
+                        <Col componentClass={ControlLabel} sm={2}>
+                          Last Name
+                        </Col>
+                        <Col sm={8}>
+                          <FormControl disabled={currentlySending} type="email" value={this.props.lastName} placeholder="Your last name" 
+                             autoCorrect="off" autoCapitalize="off" spellCheck="false"/>
+                        </Col>
+                      </FormGroup>
+
                       <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} sm={2}>
                           Email

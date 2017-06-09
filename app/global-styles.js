@@ -142,6 +142,22 @@ injectGlobal `
       font-weight: 200;
   }
 
+  .captionBanner {
+      position: absolute;
+      top: 30%;
+      left: 7%;
+  }
+
+
+  .captionBanner h2{
+      color: #1b1f23;
+      font-size: 50px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+  }
+
   .learnmore a{
       background: #fff;
       padding: 17px 25px;
@@ -984,6 +1000,7 @@ injectGlobal `
 }
 .custom-navbar ul{
     text-align: right;
+    padding-bottom: 0 !important;
 }
 
 .custom-navbar ul li{
@@ -1002,6 +1019,7 @@ injectGlobal `
 .custom-navbar ul li a:hover{
     color: #fff;
     border-bottom: 2px solid #158dd3;
+    padding-bottom: 24px !important;
 }
 .custom-navbar ul .active a{
     color: #fff !important;
@@ -1011,10 +1029,144 @@ injectGlobal `
 .custom-navbar ul .active > a{
     border: none;
     background-color: transparent !important;
+    padding-bottom: 24px !important;
 }
 
 .custom-login-form{
-    padding: 200px 0;
+    margin: 75px auto;
+}
+
+.custom-login-form h2{
+    margin: 20px 116px;
+}
+
+.custom-login-form button{
+    background: #158dd3 none repeat scroll 0 0;
+    border: medium none;
+    color: #fff;
+    cursor: pointer;
+    font-family: "open sans";
+    font-weight: 600;
+    padding: 10px;
+    width: 79%;
+}
+
+.balances {
+    padding: 70px 0;
+}
+.balances h1{
+    color: #1f1f1f;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.balances td{
+    padding: 10px 15px;
+    font-size: 12px;
+    color: #3e3e3e;
+    font-weight: 300;
+}
+.balances tr{
+    border: 1px solid #dedede;
+}
+.balances tr:first-child{
+    background: #158dd3!important;
+}
+.balances tr:first-child th{
+    font-size: 13px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.balances tr:first-child th:first-child{
+    text-align: center;
+}
+.balances tr:nth-child(odd) {
+    background: #FFF;
+}
+.balances tr:nth-child(even) {
+    background: #f3f6fc;
+}
+
+.plus {
+    display: block;
+    float: left;
+    height: 17px;
+    width: 19px;
+}
+
+.minus1 {
+    display: block;
+    float: right;
+    height: 17px;
+    margin: 0 0 0 -8px;
+    width: 19px;
+}
+
+.pending {
+    padding:40px 0 70px 0;
+}
+.pending h1{
+    color: #1f1f1f;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+.pending table{
+    width: 100%;
+}
+.pending td{
+    padding: 10px 15px;
+    font-size: 12px;
+    color: #3e3e3e;
+    font-weight: 300;
+}
+.pending tr{
+    border: 1px solid #dedede;
+}
+.pending tr:first-child{
+    background: #158dd3!important;
+}
+.pending tr:first-child td{
+    font-size: 13px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.pending tr:first-child td:first-child{
+    text-align: center;
+}
+.pending tr:nth-child(odd) {
+    background: #FFF;
+}
+.pending tr:nth-child(even) {
+    background: #f3f6fc;
+}
+
+.pwithdrawls {
+    float: left;
+    width: 48%;
+    margin-bottom: 60px;
+}
+
+.pdeposits {
+    float: right;
+    width: 48%;
+    margin-bottom: 60px;
+}
+
+.hwithdrawls {
+    float: left;
+    width: 48%;
+}
+
+.hdeposits {
+    float: right;
+    width: 48%;
 }
 
 `;

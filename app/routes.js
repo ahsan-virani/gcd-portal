@@ -35,6 +35,15 @@ export default function createRoutes(store) {
 			},
 		},
 		{
+			path: '/wallet',
+			name: 'wallet',
+			getComponent(nextState, cb) {
+				import ('containers/WalletPage')
+				.then(loadModule(cb))
+					.catch(errorLoading);
+			},
+		},
+		{
 			path: '/login',
 			name: 'login',
 			getComponent(nextState, cb) {
